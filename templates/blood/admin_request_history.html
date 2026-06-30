@@ -1,0 +1,192 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            padding-bottom: 50px;
+        }
+
+        /* SECTION TITLE */
+        .section-title {
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 20px;
+            margin-top: 30px;
+            border-left: 5px solid #d9534f;
+            padding-left: 15px;
+        }
+
+        /* ALERT MESSAGE */
+        .alert-custom {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* CARD STYLE */
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            background: #fff;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* TABLE STYLING */
+        .table {
+            margin-bottom: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .table thead th {
+            border: none;
+            background-color: #f8f9fa;
+            color: #777;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 15px;
+        }
+
+        .table tbody tr {
+            transition: background-color 0.2s;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .table td {
+            border-top: 1px solid #f0f0f0;
+            vertical-align: middle;
+            padding: 15px;
+            color: #555;
+            font-weight: 400;
+        }
+
+        /* BLOOD GROUP BADGE */
+        .blood-badge {
+            background-color: #ffebee;
+            color: #d9534f;
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* STATUS BADGES */
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-approved {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .status-rejected {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+
+        /* STOCK INFO TEXT */
+        .stock-info {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .text-green { color: #2e7d32; }
+        .text-red { color: #c62828; }
+
+    </style>
+</head>
+
+<div class="container">
+    
+    <h3 class="section-title">Blood Request History</h3>
+
+    {% if message %}
+        <div class="alert-custom">
+            <i class="fas fa-info-circle"></i> {{message}}
+        </div>
+    {% endif %}
+
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Patient Name</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Reason</th>
+                        <th scope="col">Blood Group</th>
+                        <th scope="col">Unit (ml)</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Stock Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in requests %}
+                    <tr>
+                        <td style="font-weight: 500;">{{t.patient_name}}</td>
+                        <td>{{t.patient_age}}</td>
+                        <td>{{t.reason}}</td>
+                        <td><span class="blood-badge">{{t.bloodgroup}}</span></td>
+                        <td>{{t.unit}}</td>
+                        <td>{{t.date}}</td>
+                        
+                        <td>
+                            {% if t.status == 'Approved' %}
+                                <span class="status-badge status-approved">Approved</span>
+                            {% else %}
+                                <span class="status-badge status-rejected">Rejected</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if t.status == 'Approved' %}
+                                <span class="stock-info text-green">
+                                    <i class="fas fa-check-circle"></i> {{t.unit}} Unit Deducted
+                                </span>
+                            {% else %}
+                                <span class="stock-info text-red">
+                                    <i class="fas fa-times-circle"></i> 0 Unit Deducted
+                                </span>
+                            {% endif %}
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

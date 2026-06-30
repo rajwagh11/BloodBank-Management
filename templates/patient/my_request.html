@@ -1,0 +1,132 @@
+{% extends 'patient/patientbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f3f5f9;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .table-container {
+            padding: 40px 20px;
+        }
+
+        .table-title {
+            font-weight: 600;
+            color: #343a40;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+       
+        .table-wrapper {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .table {
+            margin-bottom: 0;
+            border: none;
+        }
+
+        .table thead th {
+            background-color: #343a40; 
+            color: #ffffff;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 13px;
+            border: none;
+            padding: 15px;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            color: #555;
+            font-size: 14px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            text-align: center;
+            min-width: 90px;
+        }
+
+        .bg-approved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .bg-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .bg-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+
+<div class="container table-container">
+    <h4 class="table-title">My Blood Request History</h4>
+    
+    <div class="table-wrapper">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Age</th>
+                    <th>Reason</th>
+                    <th>Blood Group</th>
+                    <th>Unit</th>
+                    <th>Date</th>
+                    <th class="text-center">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in blood_request %}
+                <tr>
+                    <td><strong>{{t.patient_name}}</strong></td>
+                    <td>{{t.patient_age}}</td>
+                    <td>{{t.reason}}</td>
+                    <td><span class="text-danger" style="font-weight: 600;">{{t.bloodgroup}}</span></td>
+                    <td>{{t.unit}}</td>
+                    <td>{{t.date}}</td>
+                    <td class="text-center">
+                        {% if t.status == 'Approved' %}
+                            <span class="status-badge bg-approved">Approved</span>
+                        {% elif t.status == 'Rejected' %}
+                            <span class="status-badge bg-rejected">Rejected</span>
+                        {% else %}
+                            <span class="status-badge bg-pending">Pending</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted">No blood requests found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

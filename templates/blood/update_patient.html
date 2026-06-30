@@ -1,0 +1,181 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" media="all">
+
+    <style>
+        .page-wrapper {
+            padding-top: 50px;
+            background: #f3f5f9;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .card-5 {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: #fff;
+        }
+
+        .card-heading {
+            background: #343a40;
+            padding: 20px;
+        }
+
+        .card-heading .title {
+            margin: 0;
+            font-weight: 600;
+            color: #fff;
+            text-align: center;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center; 
+            margin-bottom: 25px;
+            padding: 0 60px;
+        }
+
+        .name {
+            width: 200px;
+            font-weight: 600;
+            color: #555;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .value {
+            flex-grow: 1;
+        }
+
+        .input--style-5, select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fafafa;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+
+        
+        .file-input-wrapper {
+            width: 100%;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fafafa;
+            display: flex;
+            align-items: center;
+        }
+
+        
+        input[type="file"] {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: #555;
+            width: 100%;
+        }
+
+        .btn-danger {
+            background-color: #d9534f;
+            border: none;
+            padding: 15px;
+            font-weight: 600;
+            border-radius: 5px;
+            width: 100%;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-danger:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+
+<div class="page-wrapper p-t-45 p-b-50">
+    <div class="wrapper wrapper--w790">
+        <div class="card card-5">
+            <div class="card-heading">
+                <h2 class="title">Update Patient</h2>
+            </div>
+            <div class="card-body" style="padding-top: 40px;">
+                <form method="POST" autocomplete="off" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="form-row">
+                        <div class="name">First Name</div>
+                        <div class="value">
+                            <div class="input-group">
+                                {% render_field userForm.first_name class="input--style-5" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Last Name</div>
+                        <div class="value">
+                            <div class="input-group">
+                                {% render_field userForm.last_name class="input--style-5" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Username</div>
+                        <div class="value">
+                            <div class="input-group">
+                                {% render_field userForm.username class="input--style-5" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Age</div>
+                        <div class="value">
+                            <div class="input-group">
+                                {% render_field patientForm.age class="input--style-5" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Blood Group</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <select name="bloodgroup">
+                                    <option disabled="disabled">Choose option</option>
+                                    <option value="O+" {% if patient.bloodgroup == 'O+' %}selected{% endif %}>O+</option>
+                                    <option value="O-" {% if patient.bloodgroup == 'O-' %}selected{% endif %}>O-</option>
+                                    <option value="A+" {% if patient.bloodgroup == 'A+' %}selected{% endif %}>A+</option>
+                                    <option value="A-" {% if patient.bloodgroup == 'A-' %}selected{% endif %}>A-</option>
+                                    <option value="B+" {% if patient.bloodgroup == 'B+' %}selected{% endif %}>B+</option>
+                                    <option value="B-" {% if patient.bloodgroup == 'B-' %}selected{% endif %}>B-</option>
+                                    <option value="AB+" {% if patient.bloodgroup == 'AB+' %}selected{% endif %}>AB+</option>
+                                    <option value="AB-" {% if patient.bloodgroup == 'AB-' %}selected{% endif %}>AB-</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                            </div>
+                        </div>
+                    </div> 
+
+                    <div style="padding: 0 60px; margin-top: 30px;">
+                        <button class="btn btn-danger" type="submit">Update Details</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

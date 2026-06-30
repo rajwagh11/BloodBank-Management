@@ -1,0 +1,216 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            padding-bottom: 50px;
+        }
+
+        /* SECTION TITLE */
+        .section-title {
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 20px;
+            margin-top: 30px;
+            border-left: 5px solid #d9534f;
+            padding-left: 15px;
+        }
+
+        /* ALERT MESSAGE */
+        .alert-custom {
+            background-color: #f8d7da;
+            border-left: 5px solid #dc3545;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* CARD STYLE */
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            background: #fff;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* TABLE STYLING */
+        .table {
+            margin-bottom: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .table thead th {
+            border: none;
+            background-color: #f8f9fa;
+            color: #777;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 15px;
+        }
+
+        /* Hover effect without movement */
+        .table tbody tr {
+            transition: background-color 0.2s;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .table td {
+            border-top: 1px solid #f0f0f0;
+            vertical-align: middle;
+            padding: 15px;
+            color: #555;
+            font-weight: 400;
+        }
+
+        /* BLOOD GROUP BADGE */
+        .blood-badge {
+            background-color: #ffebee;
+            color: #d9534f;
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* STATUS BADGE */
+        .status-badge {
+            background-color: #fff3e0; 
+            color: #ef6c00; 
+            border: 1px solid #ffe0b2;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* ACTION BUTTONS */
+        .btn-action {
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+            margin: 0 2px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .btn-approve {
+            background-color: #2ed8b6;
+            color: white;
+            border: none;
+        }
+        .btn-approve:hover { background-color: #25bfa1; color: white; text-decoration: none; }
+
+        .btn-reject {
+            background-color: #ff5370;
+            color: white;
+            border: none;
+        }
+        .btn-reject:hover { background-color: #e04460; color: white; text-decoration: none; }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+        }
+        .empty-state i {
+            font-size: 3rem;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+        }
+        .empty-state h5 {
+            color: #777;
+            font-weight: 400;
+        }
+
+    </style>
+</head>
+
+<div class="container">
+    
+    <h3 class="section-title">Pending Blood Requests</h3>
+
+    {% if message %}
+        <div class="alert-custom">
+            <i class="fas fa-exclamation-circle"></i> {{message}}
+        </div>
+    {% endif %}
+
+    {% if requests %}
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Patient Name</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Reason</th>
+                            <th scope="col">Blood Group</th>
+                            <th scope="col">Unit (ml)</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for t in requests %}
+                        <tr>
+                            <td style="font-weight: 500;">{{t.patient_name}}</td>
+                            <td>{{t.patient_age}}</td>
+                            <td>{{t.reason}}</td>
+                            <td><span class="blood-badge">{{t.bloodgroup}}</span></td>
+                            <td>{{t.unit}}</td>
+                            <td>{{t.date}}</td>
+                            <td><span class="status-badge">{{t.status}}</span></td>
+                            
+                            <td class="text-right">
+                                <a href="{% url 'update-approve-status' t.id %}" class="btn-action btn-approve">
+                                    <i class="fas fa-check"></i> Approve
+                                </a>
+                                <a href="{% url 'update-reject-status' t.id %}" class="btn-action btn-reject">
+                                    <i class="fas fa-times"></i> Reject
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    {% else %}
+        <div class="card empty-state">
+            <i class="fas fa-clipboard-list"></i>
+            <h5>No Pending Blood Requests</h5>
+            <p class="text-muted">All requests have been processed or none exist.</p>
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock content %}

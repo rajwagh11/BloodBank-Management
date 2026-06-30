@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Management</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+           
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .xyz {
+            flex: 1; 
+            background-image: url('{% static "image/img2.png" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            color: #fff;
+            min-height: 500px;
+        }
+
+        
+        .xyz::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6); 
+        }
+
+        .hero-content {
+            position: relative;
+            text-align: center;
+            z-index: 2;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+          
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+      
+        .hero-title span {
+            color: #ff4d4d;
+        }
+
+        .hero-sub {
+            
+            font-size: 1.3rem;
+            color: #f1f1f1;
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        
+        .bg-danger {
+            background-color: #d9534f !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    {% include "blood/navbar.html" %}
+
+    <section class="xyz">
+        <div class="hero-content">
+            <h1 class="hero-title">Give <span>Blood</span>, Save Lives</h1>
+            <p class="hero-sub">Your one donation can help multiple people in need. Become a hero today by joining our blood donation community.</p>
+        </div>
+    </section>
+
+    {% include "blood/footer.html" %}
+
+</body>
+
+</html>

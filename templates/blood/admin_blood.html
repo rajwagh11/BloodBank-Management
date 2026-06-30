@@ -1,0 +1,225 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            padding-bottom: 50px;
+        }
+
+       
+        .section-title {
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 20px;
+            margin-top: 30px;
+            border-left: 5px solid #d9534f;
+            padding-left: 15px;
+        }
+
+       
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        
+        .blood-card {
+            text-align: center;
+            padding: 20px 10px;
+            border-bottom: 4px solid #fff;
+        }
+
+        .blood-card:hover {
+            border-bottom: 4px solid #d9534f;
+        }
+
+        .blood-card h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .blood-card .fa-tint {
+            color: #d9534f;
+            opacity: 0.8;
+            font-size: 1.5rem;
+            margin-left: 5px;
+        }
+
+        .blood-card .unit-count {
+            color: #777;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        
+        .update-card {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .update-card h3 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .form-control-custom {
+            height: 50px;
+            border-radius: 30px;
+            border: 1px solid #e0e0e0;
+            padding: 0 20px;
+            font-size: 1rem;
+            background-color: #f9f9f9;
+        }
+
+        .form-control-custom:focus {
+            box-shadow: none;
+            border-color: #d9534f;
+            background-color: #fff;
+        }
+
+        .btn-update {
+            background-color: #d9534f;
+            color: white;
+            border-radius: 30px;
+            padding: 12px 40px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s;
+            height: 50px;
+            margin-top: 10px; 
+        }
+
+        .btn-update:hover {
+            background-color: #c9302c;
+            box-shadow: 0 5px 15px rgba(217, 83, 79, 0.4);
+        }
+
+        @media (min-width: 768px) {
+            .btn-update { margin-top: 0; }
+        }
+
+    </style>
+</head>
+
+<div class="container">
+    
+    <h3 class="section-title">Current Blood Stock</h3>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="card blood-card">
+                <h2>A+ <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{A1.unit}} ml</div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card blood-card">
+                <h2>B+ <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{B1.unit}} ml</div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card blood-card">
+                <h2>O+ <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{O1.unit}} ml</div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card blood-card">
+                <h2>AB+ <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{AB1.unit}} ml</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="card blood-card">
+                <h2>A- <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{A2.unit}} ml</div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card blood-card">
+                <h2>B- <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{B2.unit}} ml</div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card blood-card">
+                <h2>O- <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{O2.unit}} ml</div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card blood-card">
+                <h2>AB- <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{AB2.unit}} ml</div>
+            </div>
+        </div>
+    </div>
+
+    <hr style="margin: 30px 0; border-color: #ddd;">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card update-card">
+                <h3><i class="fas fa-edit" style="color: #d9534f; margin-right: 10px;"></i> Update Blood Unit</h3>
+                
+                <form class="form-row justify-content-center align-items-center" method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="col-md-5 mb-2 mb-md-0">
+                        <select name="bloodgroup" class="form-control form-control-custom" required>
+                            <option disabled="disabled" selected="selected">Choose Blood Group</option>
+                            <option>O+</option>
+                            <option>O-</option>
+                            <option>A+</option>
+                            <option>A-</option>
+                            <option>B+</option>
+                            <option>B-</option>
+                            <option>AB+</option>
+                            <option>AB-</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 mb-2 mb-md-0">
+                        <input type="number" class="form-control form-control-custom" name="unit" placeholder="Enter Units (ml)" required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-update w-100">Update</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}

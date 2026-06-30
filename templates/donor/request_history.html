@@ -1,0 +1,193 @@
+{% extends 'donor/donorbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            padding-bottom: 50px;
+            padding-top: 30px;
+        }
+
+        
+        .section-title {
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border-left: 5px solid #d9534f;
+            padding-left: 15px;
+            text-transform: uppercase;
+        }
+
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            background: #fff;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        
+        .table {
+            margin-bottom: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .table thead th {
+            border: none;
+            background-color: #f8f9fa;
+            color: #777;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 15px;
+        }
+
+        .table tbody tr {
+            transition: background-color 0.2s;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .table td {
+            border-top: 1px solid #f0f0f0;
+            vertical-align: middle;
+            padding: 15px;
+            color: #555;
+            font-weight: 400;
+        }
+
+        
+        .blood-badge {
+            background-color: #ffebee;
+            color: #d9534f;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            min-width: 90px;
+            text-align: center;
+        }
+
+        .status-approved {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .status-rejected {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+
+        .status-pending {
+            background-color: #fff8e1;
+            color: #f57f17;
+            border: 1px solid #ffecb3;
+        }
+
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+        }
+        .empty-state i {
+            font-size: 3rem;
+            color: #e0e0e0;
+            margin-bottom: 15px;
+        }
+        .empty-state p {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+    </style>
+</head>
+
+<div class="container">
+    
+    <h3 class="section-title">My Blood Request History</h3>
+
+    <div class="card">
+        {% if blood_request %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Patient Name</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Reason</th>
+                        <th scope="col">Blood Group</th>
+                        <th scope="col">Unit (ml)</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in blood_request %}
+                    <tr>
+                        <td style="font-weight: 500;">{{t.patient_name}}</td>
+                        <td>{{t.patient_age}}</td>
+                        <td>{{t.reason}}</td>
+                        <td><span class="blood-badge">{{t.bloodgroup}}</span></td>
+                        <td>{{t.unit}}</td>
+                        <td>{{t.date}}</td>
+                        
+                        <td>
+                            {% if t.status == 'Approved' %}
+                                <span class="status-badge status-approved">
+                                    <i class="fas fa-check-circle"></i> Approved
+                                </span>
+                            {% elif t.status == 'Rejected' %}
+                                <span class="status-badge status-rejected">
+                                    <i class="fas fa-times-circle"></i> Rejected
+                                </span>
+                            {% else %}
+                                <span class="status-badge status-pending">
+                                    <i class="fas fa-clock"></i> Pending
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-history"></i>
+                <p>No blood requests found in history.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}

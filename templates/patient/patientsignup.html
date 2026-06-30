@@ -1,0 +1,257 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <title>Patient Registration</title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" media="all">
+
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 15px;
+        }
+
+        
+        .card-5 {
+            width: 100%;
+            max-width: 790px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        
+        .card-heading {
+            background: #333;
+            padding: 20px;
+        }
+
+        .card-heading .title {
+            color: #fff;
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 0;
+            text-align: left;
+        }
+
+        .card-body {
+            padding: 40px;
+        }
+
+       
+        .form-row {
+            display: flex;
+            margin-bottom: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .name {
+            width: 25%;
+            font-weight: 700;
+            color: #555;
+            padding-right: 15px;
+        }
+
+        .value {
+            width: 75%;
+        }
+
+        
+        .input--style-5, select.input--style-5 {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            font-size: 16px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .input--style-5:focus {
+            border-color: #d9534f;
+            background-color: #fff;
+            outline: none;
+        }
+
+      
+        .btn-register {
+            background-color: #d9534f;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-register:hover {
+            background-color: #c9302c;
+        }
+
+       
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+
+        .login-link a {
+            color: #d9534f;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        
+        @media (max-width: 768px) {
+            .name { width: 100%; margin-bottom: 10px; }
+            .value { width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+    {% include "blood/navbar.html" %}
+
+    <div class="page-wrapper">
+        <div class="card card-5">
+            <div class="card-heading">
+                <h2 class="title">Patient Registration</h2>
+            </div>
+            
+            <div class="card-body">
+                <form method="POST" autocomplete="off" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="form-row">
+                        <div class="name">First Name</div>
+                        <div class="value">
+                            {% render_field userForm.first_name|attr:'required:true' class="input--style-5" %}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Last Name</div>
+                        <div class="value">
+                            {% render_field userForm.last_name|attr:'required:true' class="input--style-5" %}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Username</div>
+                        <div class="value">
+                            {% render_field userForm.username|attr:'required:true' class="input--style-5" %}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Password</div>
+                        <div class="value">
+                            {% render_field userForm.password|attr:'required:true' class="input--style-5" %}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Age</div>
+                        <div class="value">
+                            {% render_field patientForm.age|attr:'required:true' class="input--style-5" %}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Blood Group</div>
+                        <div class="value">
+                            <select name="bloodgroup" class="input--style-5" required>
+                                <option disabled="disabled" selected="selected">Choose option</option>
+                                <option>O+</option>
+                                <option>O-</option>
+                                <option>A+</option>
+                                <option>A-</option>
+                                <option>B+</option>
+                                <option>B-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Disease</div>
+                        <div class="value">
+                            {% render_field patientForm.disease|attr:'required:true' class="input--style-5" %}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Doctor Name</div>
+                        <div class="value">
+                            {% render_field patientForm.doctorname|attr:'required:true' class="input--style-5" %}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Address</div>
+                        <div class="value">
+                            {% render_field patientForm.address|attr:'required:true' class="input--style-5" %}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Mobile</div>
+                        <div class="value">
+                            {% render_field patientForm.mobile|attr:'required:true' class="input--style-5" %}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Profile Pic</div>
+                        <div class="value">
+                            {% render_field patientForm.profile_pic|attr:'required:true' class="input--style-5" style="padding: 7px;" %}
+                        </div>
+                    </div>
+
+                    <div style="text-align: right; margin-top: 30px;">
+                        <button class="btn-register" type="submit">REGISTER</button>
+                    </div>
+
+                </form>
+
+                <div class="login-link">
+                    Already have an account? <a href="/patient/patientlogin">Click here to login</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {% include "blood/footer.html" %}
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

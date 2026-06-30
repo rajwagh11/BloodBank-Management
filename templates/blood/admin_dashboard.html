@@ -1,0 +1,240 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            padding-bottom: 50px;
+        }
+
+        
+        .section-title {
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 20px;
+            margin-top: 30px;
+            border-left: 5px solid #d9534f;
+            padding-left: 15px;
+        }
+
+       
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        
+        .blood-card {
+            background: #fff;
+            text-align: center;
+            padding: 20px 10px;
+            border-bottom: 4px solid #fff; 
+        }
+
+        .blood-card:hover {
+            border-bottom: 4px solid #d9534f; 
+        }
+
+        .blood-card h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .blood-card .fa-tint {
+            color: #d9534f;
+            opacity: 0.8;
+            font-size: 1.5rem;
+            margin-left: 5px;
+        }
+
+        .blood-card .unit-count {
+            color: #777;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .blood-card .unit-label {
+            font-size: 0.8rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        
+        .stat-card {
+            display: flex;
+            align-items: center;
+            padding: 25px;
+            color: white;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            margin-right: 15px;
+        }
+
+        .stat-content h4 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .stat-content p {
+            font-size: 0.9rem;
+            margin: 0;
+            opacity: 0.9;
+            text-transform: uppercase;
+        }
+
+        
+        .bg-blue { background: linear-gradient(45deg, #4099ff, #73b4ff); }
+        .bg-orange { background: linear-gradient(45deg, #FFB64D, #ffcb80); }
+        .bg-green { background: linear-gradient(45deg, #2ed8b6, #59e0c5); }
+        .bg-red { background: linear-gradient(45deg, #FF5370, #ff869a); }
+
+    </style>
+</head>
+
+<div class="container">
+    
+    <h3 class="section-title">Blood Stock Availability</h3>
+    
+    <div class="row">
+        <div class="col-sm-6 col-md-3">
+            <div class="card blood-card">
+                <h2>A+ <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{A1.unit}} <span class="unit-label">ml</span></div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="card blood-card">
+                <h2>B+ <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{B1.unit}} <span class="unit-label">ml</span></div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="card blood-card">
+                <h2>O+ <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{O1.unit}} <span class="unit-label">ml</span></div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="card blood-card">
+                <h2>AB+ <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{AB1.unit}} <span class="unit-label">ml</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 col-md-3">
+            <div class="card blood-card">
+                <h2>A- <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{A2.unit}} <span class="unit-label">ml</span></div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="card blood-card">
+                <h2>B- <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{B2.unit}} <span class="unit-label">ml</span></div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="card blood-card">
+                <h2>O- <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{O2.unit}} <span class="unit-label">ml</span></div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="card blood-card">
+                <h2>AB- <i class="fas fa-tint"></i></h2>
+                <div class="unit-count">{{AB2.unit}} <span class="unit-label">ml</span></div>
+            </div>
+        </div>
+    </div>
+
+    <hr style="border-top: 1px solid #e0e0e0; margin: 20px 0;">
+
+    <h3 class="section-title">System Statistics</h3>
+    
+    <div class="row">
+        
+        <div class="col-sm-6 col-md-3">
+            <div class="card stat-card bg-blue">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>{{totaldonors}}</h4>
+                    <p>Total Donors</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+            <div class="card stat-card bg-orange">
+                <div class="stat-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>{{totalrequest}}</h4>
+                    <p>Total Requests</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+            <div class="card stat-card bg-green">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>{{totalapprovedrequest}}</h4>
+                    <p>Approved</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+            <div class="card stat-card bg-red">
+                <div class="stat-icon">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>{{totalbloodunit}}</h4>
+                    <p>Total Units (ml)</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}
